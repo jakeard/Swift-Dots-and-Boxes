@@ -8,9 +8,6 @@ extension StringProtocol {
 
 class CheckValidCoords {
     func checkErrors(coords: String, board: Board) -> (Bool, Int, Int) {
-        // guard let coords = coords! else {
-        //     return giveError()
-        // }
         if coords.count != 2 {
             return giveError()
         }
@@ -25,27 +22,15 @@ class CheckValidCoords {
         if coords[0].isLetter == false || coords[1].isNumber == false {
             return giveError()
         }
-        // let l = coords[0].uppercased()
-        // let x = Character(l).asciiValue
-        // let w = 
-        // guard let w = Int(l!)
         let letter_ascii_optional = Character(coords[0].uppercased()).asciiValue
         guard let letter_ascii = letter_ascii_optional else {
             return giveError()
         }
         let letter = Int(letter_ascii) % 64
-        // let letter = Int(Character(coords[0].uppercased()).asciiValue!) % 64
-
-        // guard let letter = Int(Character(coords[0].uppercased()).asciiValue!) % 64 else {
-        //     return giveError()
-        // }
         let num_optional = Int(String(coords[1]))
         guard let num = num_optional else {
             return giveError()
         }
-        // guard let num = Int(String(coords[1]))! else {
-        //     return giveError()
-        // }
 
         if letter > 9 || num == 0 {
             return giveError()
