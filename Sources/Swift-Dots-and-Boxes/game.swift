@@ -4,6 +4,7 @@ class Director {
     private var board = Board()
     private var p1 = Player(playerNum: 1)
     private var p2 = Player(playerNum: 2)
+    private var tie = Player(playerNum: 3)
 
     func run() {
         var turn: Player
@@ -12,6 +13,9 @@ class Director {
         var col: Int
         var row: Int
         let finishScore = 16
+
+        print("\nINSTRUCTIONS:\nEnter coordinates in form: (column)(row)\nExample: A2 or a2\n")
+        pause()
 
         while self.p1.getScore() + self.p2.getScore() != finishScore {
             self.board.showBoard()
@@ -36,10 +40,21 @@ class Director {
             count += 1
         }
         self.board.showBoard()
-        let (winner, loser) = getWinner()
-
-        print("Player \(winner.playerNum) wins with \(winner.getScore()) points")
-        print("Player \(loser.playerNum) loses with \(loser.getScore()) points\n")
+        let (win, _) = getWinner()
+        let winner: Player
+        let loser: Player
+        if win == "p1" {
+            winner = self.p1
+            loser = self.p2
+        } else if win == "p2" {
+            winner = self.p2
+            loser = self.p1
+        } else {
+            print("Both players tied with a score of 8 points each")
+            return
+        }
+        print("\(winner.playerNum) wins with \(winner.getScore()) points")
+        print("\(loser.playerNum) loses with \(loser.getScore()) points\n")
     }
 
     private func addPoints(row: Int, col: Int, player: Player) -> Bool {
@@ -99,11 +114,13 @@ class Director {
         return self.board.getBoard()[row][col] != " "
     }
 
-    private func getWinner() -> (Player, Player) {
+    private func getWinner() -> (String, String) {
         if self.p1.getScore() > self.p2.getScore() {
-            return (self.p1, self.p2)
+            return ("Player 1", "Player 2")
+        } else if self.p2.getScore() > self.p1.getScore() {
+            return ("Player 2", "Player 1")
         } else {
-            return (self.p2, self.p1)
+            return ("tie", "tie")
         }
     }
 
